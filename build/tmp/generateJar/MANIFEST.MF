@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Implementation-Title: Flisan-Discord-Framework
+Implementation-Version: 1.0-SNAPSHOT
+Main-Class: com.mkyong.DateUtils
+
