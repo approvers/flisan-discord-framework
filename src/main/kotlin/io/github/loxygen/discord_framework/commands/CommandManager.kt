@@ -1,8 +1,11 @@
 package io.github.loxygen.discord_framework.commands
 
-import io.github.loxygen.discord_framework.commands.abc.AbstractCommand
+import io.github.loxygen.discord_framework.commands.abc.EventCommand
+import io.github.loxygen.discord_framework.commands.abc.MessageCommand
+import io.github.loxygen.discord_framework.commands.event.EventInfo
 import net.dv8tion.jda.api.entities.MessageChannel
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
+import java.awt.Event
 
 /**
  * コマンドを司る。
@@ -18,13 +21,24 @@ class CommandManager(
    /**
     * コマンドを実行するオブジェクトたち。
     */
-   private val commands: MutableList<AbstractCommand> = mutableListOf()
+   private val commands: MutableList<MessageCommand> = mutableListOf()
+
+   /**
+    * イベントで発火されるコマンドを実行するオブジェクトたち。
+    */
+   private val eventCommands:MutableList<EventCommand> = mutableListOf()
 
    /**
     * 実行対象のコマンドを追加する。
     */
-   fun addCommand(command: AbstractCommand) {
+   fun addCommand(command: MessageCommand) {
       commands.add(command)
+   }
+   /**
+    * 実行対象のコマンドを追加する。
+    */
+   fun addEventCommand(command: EventCommand) {
+      eventCommands.add(command)
    }
 
    /**
@@ -67,6 +81,14 @@ class CommandManager(
             event.channel.sendMessage("そのサブコマンド is 何").queue()
          }
       }
+   }
+
+   fun dispatchEvent(eventInfo: EventInfo) {
+
+      eventCommands
+         .filter { it.isApplicable(eventInfo.eventType) }
+         .forEach { it.executeCommand(eventInfo) }
+
    }
 
    private fun sendHelp(channel: MessageChannel) {

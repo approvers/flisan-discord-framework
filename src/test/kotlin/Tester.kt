@@ -1,8 +1,12 @@
 import io.github.loxygen.discord_framework.client.Client
 import io.github.loxygen.discord_framework.client.ClientSettingInfo
 import io.github.loxygen.discord_framework.commands.CommandResult
+import io.github.loxygen.discord_framework.commands.abc.EventCommand
 import io.github.loxygen.discord_framework.commands.abc.PrefixnessCommand
+import io.github.loxygen.discord_framework.commands.annotations.EventReceiver
 import io.github.loxygen.discord_framework.commands.annotations.SubCommand
+import io.github.loxygen.discord_framework.commands.event.EventType
+import net.dv8tion.jda.api.events.ReadyEvent
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 
 object Tester : PrefixnessCommand(
@@ -19,7 +23,15 @@ object Tester : PrefixnessCommand(
 
 }
 
-object EventHandler
+object EventHandler : EventCommand() {
+
+   @EventReceiver(EventType.BOT_READY)
+   fun eventReady(event: ReadyEvent) : CommandResult {
+      event.jda.getTextChannelById(695976154779222047)?.sendMessage("Bot ready event dispatched")?.queue()
+      return CommandResult.SUCCESS
+   }
+
+}
 
 fun main() {
 
@@ -34,6 +46,7 @@ fun main() {
 
    val client = Client(settingInfo)
    client.commandManager.addCommand(Tester)
+   client.commandManager.addEventCommand(EventHandler)
    client.launch()
 
 }

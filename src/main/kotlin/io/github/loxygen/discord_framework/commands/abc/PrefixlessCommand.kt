@@ -14,7 +14,7 @@ import kotlin.reflect.full.findAnnotation
  * 接頭辞なしコマンドを実際に実行する機能を提供する†抽象クラス†。
  * あらゆる接頭辞なしコマンドはこれを継承してください
  */
-abstract class PrefixlessCommand : AbstractCommand() {
+abstract class PrefixlessCommand : MessageCommand() {
 
    override val commandInfo: CommandInfo? = null
 

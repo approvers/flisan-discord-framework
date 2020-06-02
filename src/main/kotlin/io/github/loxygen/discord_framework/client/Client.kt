@@ -1,6 +1,8 @@
 package io.github.loxygen.discord_framework.client
 
 import io.github.loxygen.discord_framework.commands.CommandManager
+import io.github.loxygen.discord_framework.commands.event.EventInfo
+import io.github.loxygen.discord_framework.commands.event.EventType
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.entities.Activity
@@ -57,6 +59,8 @@ class Client(
       channel.sendMessage(
          "***†${clientSettingInfo.botName} Ready†***\n" +
               "プレフィックスは`${clientSettingInfo.prefix}`です").queue()
+
+      commandManager.dispatchEvent(EventInfo(event, EventType.BOT_READY))
 
    }
 

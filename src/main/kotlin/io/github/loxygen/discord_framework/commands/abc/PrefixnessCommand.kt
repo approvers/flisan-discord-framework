@@ -20,7 +20,7 @@ abstract class PrefixnessCommand(
    identify: String,
    name: String,
    description: String
-) : AbstractCommand() {
+) : MessageCommand() {
 
    override val commandInfo: CommandInfo? = CommandInfo(
       identify, name, description
