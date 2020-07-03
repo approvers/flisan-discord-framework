@@ -1,11 +1,10 @@
 package io.github.loxygen.discord_framework.commands
 
-import io.github.loxygen.discord_framework.commands.abc.EventCommand
+import io.github.loxygen.discord_framework.commands.abc.EventListener
 import io.github.loxygen.discord_framework.commands.abc.MessageCommand
 import io.github.loxygen.discord_framework.commands.event.EventInfo
 import net.dv8tion.jda.api.entities.MessageChannel
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
-import java.awt.Event
 
 /**
  * コマンドを司る。
@@ -15,7 +14,7 @@ class CommandManager(
 ) {
 
    init {
-      if(prefix.isEmpty()) throw IllegalArgumentException("Prefix cannot be empty!")
+      prefix.ifEmpty { throw IllegalArgumentException("Prefix cannot be empty!") }
    }
 
    /**
@@ -26,19 +25,20 @@ class CommandManager(
    /**
     * イベントで発火されるコマンドを実行するオブジェクトたち。
     */
-   private val eventCommands:MutableList<EventCommand> = mutableListOf()
+   private val eventListeners: MutableList<EventListener> = mutableListOf()
 
    /**
-    * 実行対象のコマンドを追加する。
+    * メッセージに反応するコマンドを追加する。
+    * @param command コマンド。
     */
-   fun addCommand(command: MessageCommand) {
+   fun addMessageCommand(command: MessageCommand) {
       commands.add(command)
    }
    /**
-    * 実行対象のコマンドを追加する。
+    * イベントリスナーを追加する。
     */
-   fun addEventCommand(command: EventCommand) {
-      eventCommands.add(command)
+   fun addEventCommand(command: EventListener) {
+      eventListeners.add(command)
    }
 
    /**
@@ -69,7 +69,7 @@ class CommandManager(
             println("command succeeded:\n${event.author.name}\n  ${event.message.contentDisplay}")
          }
          CommandResult.FAILED -> {
-            event.channel.sendMessage("ズサーッ！(コマンドがコケた音)").queue()
+            println("command failed:\n${event.author.name}\n  ${event.message.contentDisplay}")
          }
          CommandResult.INVALID_ARGUMENTS -> {
             event.channel.sendMessage("引数がおかしいみたいです").queue()
@@ -85,7 +85,7 @@ class CommandManager(
 
    fun dispatchEvent(eventInfo: EventInfo) {
 
-      eventCommands
+      eventListeners
          .filter { it.isApplicable(eventInfo.eventType) }
          .forEach { it.executeCommand(eventInfo) }
 

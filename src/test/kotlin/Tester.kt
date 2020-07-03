@@ -1,7 +1,7 @@
 import io.github.loxygen.discord_framework.client.Client
 import io.github.loxygen.discord_framework.client.ClientSettingInfo
 import io.github.loxygen.discord_framework.commands.CommandResult
-import io.github.loxygen.discord_framework.commands.abc.EventCommand
+import io.github.loxygen.discord_framework.commands.abc.EventListener
 import io.github.loxygen.discord_framework.commands.abc.PrefixnessCommand
 import io.github.loxygen.discord_framework.commands.annotations.EventReceiver
 import io.github.loxygen.discord_framework.commands.annotations.SubCommand
@@ -23,7 +23,7 @@ object Tester : PrefixnessCommand(
 
 }
 
-object EventHandler : EventCommand() {
+object EventListener : EventListener() {
 
    @EventReceiver(EventType.BOT_READY)
    fun eventReady(event: ReadyEvent) : CommandResult {
@@ -45,8 +45,8 @@ fun main() {
    )
 
    val client = Client(settingInfo)
-   client.commandManager.addCommand(Tester)
-   client.commandManager.addEventCommand(EventHandler)
+   client.addMessageCommand(Tester)
+   client.addEventListener(EventListener)
    client.launch()
 
 }

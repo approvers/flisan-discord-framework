@@ -1,11 +1,12 @@
 package io.github.loxygen.discord_framework.client
 
 import io.github.loxygen.discord_framework.commands.CommandManager
+import io.github.loxygen.discord_framework.commands.abc.EventListener
+import io.github.loxygen.discord_framework.commands.abc.MessageCommand
 import io.github.loxygen.discord_framework.commands.event.EventInfo
 import io.github.loxygen.discord_framework.commands.event.EventType
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
-import net.dv8tion.jda.api.entities.Activity
 import net.dv8tion.jda.api.events.ReadyEvent
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
@@ -27,7 +28,7 @@ class Client(
    /**
     * コマンドを管理する。
     */
-   val commandManager: CommandManager = CommandManager(clientSettingInfo.prefix)
+   private val commandManager: CommandManager = CommandManager(clientSettingInfo.prefix)
 
    /**
     * コマンドを実行する
@@ -40,10 +41,25 @@ class Client(
             )
 
       discordClient = JDABuilder.createDefault(token)
-         .setActivity(Activity.of(Activity.ActivityType.DEFAULT, "hennlo world"))
          .addEventListeners(this)
          .build()
 
+   }
+
+   /**
+    * メッセージに反応するコマンドを登録する。
+    * @param command コマンド。
+    */
+   fun addMessageCommand(command: MessageCommand) {
+      this.commandManager.addMessageCommand(command)
+   }
+
+   /***
+    * イベントリスナーを登録する。
+    * @param listener リスナー。
+    */
+   fun addEventListener(listener: EventListener) {
+      this.commandManager.addEventCommand(listener)
    }
 
    override fun onReady(event: ReadyEvent) {
@@ -69,7 +85,7 @@ class Client(
       if (event.author.isBot && !clientSettingInfo.botIdsWhiteList.contains(event.author.idLong)) return
       if (clientSettingInfo.reactOnlyLoggingChanel && event.channel.idLong != clientSettingInfo.loggingChannelId) return
 
-      if (event.message.contentDisplay.isEmpty()) return
+      event.message.contentDisplay.ifEmpty { return }
 
       commandManager.executeCommand(event)
 

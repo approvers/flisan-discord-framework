@@ -11,7 +11,7 @@ import kotlin.reflect.KTypeProjection
 import kotlin.reflect.full.createType
 import kotlin.reflect.full.findAnnotation
 
-abstract class EventCommand {
+abstract class EventListener {
 
 
    /**
