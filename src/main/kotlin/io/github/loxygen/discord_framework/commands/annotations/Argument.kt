@@ -15,5 +15,9 @@ annotation class Argument(
    /**
     * (default true)[count]が引数の数より大きい場合、実行を拒否する。
     */
-   val denyMore: Boolean = true
+   val denyMore: Boolean = true,
+   /**
+    * 引数の説明。なくても実行できるけど書きましょうね
+    */
+   vararg val help: String
 )

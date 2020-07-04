@@ -22,6 +22,13 @@ abstract class PrefixnessCommand(
    description: String
 ) : MessageCommand() {
 
+   companion object {
+      private val HELP_TEMPLATE =
+              "** --- %s (`%s`) --- **\n" +
+              "`%s`\n" +
+              "%s"
+   }
+
    override val commandInfo: CommandInfo? = CommandInfo(
       identify, name, description
    )
@@ -135,15 +142,26 @@ abstract class PrefixnessCommand(
    @SubCommand(identify = "help", name = "ヘルプ", description = "ヘルプを表示します。")
    @Argument(count = 0, denyLess = false, denyMore = false)
    fun sendHelpText(args: List<String>, event: MessageReceivedEvent): CommandResult {
-      event.channel.sendMessage(buildString {
-         append("** --- ${commandInfo!!.name} (`${commandInfo!!.identify}`) --- **\n")
-         append("${commandInfo!!.description}\n```")
+      val commandHelpText =  buildString {
          prefixfulMethodCache.forEach {
-            append("${it.second.name} (${it.second.identify})\n")
-            append("  ${it.second.description}\n``````")
+            val argsAnnotation = it.first.findAnnotation<Argument>()
+            val argDocStr = argsAnnotation?.help?.joinToString(" ") { "[$it]" } ?: ""
+            val varargNotifyText =
+               (if (argsAnnotation?.denyMore == false) "..." else "") +
+               (if (argsAnnotation?.denyLess == false) " (省略可能あり)" else "")
+            append("```${it.second.name}\n")
+            append("→ ${it.second.identify} $argDocStr$varargNotifyText\n")
+            append("  ${it.second.description}\n```")
          }
-         delete(length - 3, length)
-      }).queue()
+      }
+      event.channel.sendMessage(
+         HELP_TEMPLATE.format(
+            commandInfo!!.name,
+            commandInfo!!.identify,
+            commandInfo!!.description,
+            commandHelpText
+         )
+      ).queue()
       return CommandResult.SUCCESS
    }
 
