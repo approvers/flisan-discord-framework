@@ -144,11 +144,13 @@ abstract class PrefixnessCommand(
    fun sendHelpText(args: List<String>, event: MessageReceivedEvent): CommandResult {
       val commandHelpText =  buildString {
          prefixfulMethodCache.forEach {
-            val argDocStr = it.first.findAnnotation<Argument>()?.help?.joinToString(" ") {
-               "[$it]"
-            } ?: ""
-            append("${it.second.name}\n")
-            append("${it.second.identify} $argDocStr")
+            val argsAnnotation = it.first.findAnnotation<Argument>()
+            val argDocStr = argsAnnotation?.help?.joinToString(" ") { "[$it]" } ?: ""
+            val varargNotifyText =
+               (if (argsAnnotation?.denyMore == false) "..." else "") +
+               (if (argsAnnotation?.denyLess == false) " (省略可能あり)" else "")
+            append("```${it.second.name}\n")
+            append("→ ${it.second.identify} $argDocStr$varargNotifyText\n")
             append("  ${it.second.description}\n```")
          }
       }
