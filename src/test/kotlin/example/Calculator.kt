@@ -51,7 +51,7 @@ class Calculator : PrefixnessCommand(
 
         val num = args
             .map { it.toIntOrNull() ?: return CommandResult.INVALID_ARGUMENTS }
-            .reduce {left, right -> left * right}
+            .reduce { left, right -> left * right }
         event.channel.sendMessage("= $num").queue()
         return CommandResult.SUCCESS
 

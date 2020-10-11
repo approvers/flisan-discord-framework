@@ -20,43 +20,45 @@ class Tester : PrefixnessCommand(
 ) {
 
     @SubCommand(identify = "hi", name = "ごあいさつ", description = "ちゃんと挨拶してほら！")
-    fun greeting(args: List<String>, event: MessageReceivedEvent) : CommandResult {
+    fun greeting(args: List<String>, event: MessageReceivedEvent): CommandResult {
         event.channel.sendMessage("Hennlo world!").queue()
         return CommandResult.SUCCESS
     }
 
     @SubCommand(identify = "args", name = "引数テスト", description = "引数周り、ちゃんと動いてほしいな")
     @Argument(count = 3, help = ["引数1", "引数2", "引数3"])
-    fun argument(args: List<String>, event: MessageReceivedEvent) : CommandResult {
+    fun argument(args: List<String>, event: MessageReceivedEvent): CommandResult {
         sendArgsInfo(args, event)
         return CommandResult.SUCCESS
     }
 
     @SubCommand(identify = "args", name = "省略可能な引数がある場合のテスト", description = "引数周り、ちゃんと動いてほしいな")
     @Argument(count = 3, denyLess = false, help = ["引数1", "引数2", "引数3"])
-    fun lessArgs(args: List<String>, event: MessageReceivedEvent) : CommandResult {
+    fun lessArgs(args: List<String>, event: MessageReceivedEvent): CommandResult {
         sendArgsInfo(args, event)
         return CommandResult.SUCCESS
     }
 
     @SubCommand(identify = "args", name = "いっぱい列挙できる引数が有る場合のテスト", description = "引数周り、ちゃんと動いてほしいな")
     @Argument(count = 3, denyMore = false, help = ["引数1", "引数2", "引数3"])
-    fun moreArgs(args: List<String>, event: MessageReceivedEvent) : CommandResult {
+    fun moreArgs(args: List<String>, event: MessageReceivedEvent): CommandResult {
         sendArgsInfo(args, event)
         return CommandResult.SUCCESS
     }
 
     @SubCommand(identify = "fail", name = "必ず失敗するコマンド", description = "")
-    fun fail(args: List<String>, event: MessageReceivedEvent) : CommandResult {
+    fun fail(args: List<String>, event: MessageReceivedEvent): CommandResult {
         throw RuntimeException()
     }
 
     private fun sendArgsInfo(args: List<String>, event: MessageReceivedEvent) {
-        event.channel.sendMessage("以下の引数が渡されました:${
-            args.mapIndexed {index: Int, s: String ->
-                "${index + 1} $s"
-            }.joinToString("\n")
-        }")
+        event.channel.sendMessage(
+            "以下の引数が渡されました:${
+                args.mapIndexed { index: Int, s: String ->
+                    "${index + 1} $s"
+                }.joinToString("\n")
+            }"
+        )
     }
 
 }
@@ -70,7 +72,7 @@ class EnterEventListener : EventListener() {
     //
     // 引数の型はEventType.Hoge.classTypeと合致するようにしてください。
     // また、CommandResultを返す必要があります。
-    fun eventReady(event: ReadyEvent) : CommandResult {
+    fun eventReady(event: ReadyEvent): CommandResult {
 
         // Botの起動完了時に、標準出力に「Bot started!!」と出力します。
         print("Bot started!!")
