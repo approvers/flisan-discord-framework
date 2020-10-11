@@ -10,8 +10,8 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 class Calculator : PrefixnessCommand(
     // PrefixnessCommandのコンストラクタに、コマンドの情報を入力します。
     // ここで入力した内容が、`help`サブコマンド実行時に表示されます。
-    name = "PingPong Bot",
-    description = "Pingコマンドが実行されたときにPongと返す。",
+    name = "簡易的な電卓",
+    description = "足し算と掛け算をします。",
     identify = "calc"
 ) {
 
