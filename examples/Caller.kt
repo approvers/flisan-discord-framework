@@ -41,7 +41,7 @@ class Caller : PrefixlessCommand() {
     @PrefixlessSubCommand(triggerRegex = "[hH]iguchi")
     fun ichiyo(message: String, event: MessageReceivedEvent): CommandResult {
 
-        event.channel.sendMessage("***Ichiyo***")
+        event.channel.sendMessage("***Ichiyo***").queue()
         return CommandResult.SUCCESS
 
     }
