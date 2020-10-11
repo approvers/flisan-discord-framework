@@ -45,23 +45,23 @@ Jubilantでは、`PrefixnessCommand`または`PrefixlessCommand`を継承して�
 `PrefixnessCommand`を継承したクラスを作成すると、
 プレフィックス付きのメッセージに反応するコマンドを作成できます。
 
-[サンプル](https://github.com/approvers/jubilant/tree/dev/src/test/kotlin/example/Calculator.kt)
+[サンプル](https://github.com/approvers/jubilant/tree/dev/examples/Calculator.kt)
 
 #### `PrefixlessCommand`
 `PrefixlessComannd`を継承したクラスを作成すると、
 指定した正規表現に反応するコマンドを作成できます。
 
-[サンプル](https://github.com/approvers/jubilant/tree/dev/src/test/kotlin/example/Caller.kt)
+[サンプル](https://github.com/approvers/jubilant/tree/dev/examples/Caller.kt)
 
 ### (実験的) メッセージ送信時以外のイベントを取得する
 **この機能は実験的です。**<br>
 `EventListener`を継承したクラスを作成すると、
 指定したイベントに反応するイベントリスナーを作成できます。
 
-[サンプル](https://github.com/approvers/jubilant/tree/dev/src/test/kotlin/test/Tester.kt)
+[サンプル](https://github.com/approvers/jubilant/tree/dev/examples/EnterEventListener.kt)
 
 ### Botを実行する
-[サンプル](https://github.com/approvers/jubilant/tree/dev/src/test/kotlin/Tester.kt)
+[サンプル](https://github.com/approvers/jubilant/tree/dev/examples/Main.kt)
 #### Botの設定を作成する
 `ClientSettingInfo`を生成し、クライアントに情報を与える必要があります。
 ```kotlin
