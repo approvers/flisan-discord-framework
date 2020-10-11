@@ -5,6 +5,7 @@ import dev.approvers.jubilant.commands.abc.EventListener
 import dev.approvers.jubilant.commands.abc.MessageCommand
 import dev.approvers.jubilant.commands.event.EventInfo
 import dev.approvers.jubilant.commands.event.EventType
+import dev.approvers.jubilant.exception.TokenMissingException
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.events.ReadyEvent
@@ -35,10 +36,7 @@ class Client(
     */
    fun launch() {
 
-      val token = clientSettingInfo.token ?: System.getenv("DISCORD_TOKEN")
-         ?: throw NullPointerException(
-               "The token is missing! \nProvide a token via ClientSettingInfo or Environment Variable \"DISCORD_TOKEN\"."
-            )
+      val token = clientSettingInfo.token ?: System.getenv("DISCORD_TOKEN") ?: throw TokenMissingException()
 
       discordClient = JDABuilder.createDefault(token)
          .addEventListeners(this)
