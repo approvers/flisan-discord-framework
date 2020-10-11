@@ -7,7 +7,7 @@ JDAの簡単なラッパーです。<br>
 **破壊的変更が頻繁に起こる可能性があります。**
 
 ## For non-japanese users
-Unfortunately, this repository and package is for Japanese users.<br />
+Unfortunately, this repository and package are for Japanese users.<br />
 I'm currently working for internationalization of this repo and package.
 
 ## 依存関係に追加する
