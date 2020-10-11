@@ -1,17 +1,17 @@
 buildscript {
     // プロジェクトの情報を設定する
-    def versionId = [0,1,0]
+    def versionId = [0, 1, 0]
     ext {
         pj = [
-                versions : [
-                        name: "${versionId[0]}.${versionId[1]}.${versionId[2]}",
-                        code: versionId[0] * 10000 + versionId[1] * 100 + versionId[2]
-                ],
-                groupId      : "dev.approvers",
-                artifactId   : "jubilant",
-                siteUrl      : "https://github.com/approvers/jubilant",
-                githubUrl    : "https://github.com/approvers/jubilant",
-                scmConnection: "scm:git:https://github.com/approvers/jubilant"
+            versions     : [
+                name: "${versionId[0]}.${versionId[1]}.${versionId[2]}",
+                code: versionId[0] * 10000 + versionId[1] * 100 + versionId[2]
+            ],
+            groupId      : "dev.approvers",
+            artifactId   : "jubilant",
+            siteUrl      : "https://github.com/approvers/jubilant",
+            githubUrl    : "https://github.com/approvers/jubilant",
+            scmConnection: "scm:git:https://github.com/approvers/jubilant"
         ]
     }
 }
