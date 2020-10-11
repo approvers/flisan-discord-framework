@@ -20,7 +20,7 @@ fun main() {
 
         // トークン。
         // トークンにnullが渡された場合は、DISCORD_TOKEN環境変数を利用しようとします。
-        // DISCORD_TOKEN環境変数も存在しない場合は、NullPointerExceptionをスローします。
+        // DISCORD_TOKEN環境変数も存在しない場合は、MissingTokenExceptionをスローします。
         token = null,
 
         // ログ用チャンネルのID。
