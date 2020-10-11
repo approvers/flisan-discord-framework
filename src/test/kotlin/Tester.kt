@@ -9,6 +9,7 @@ import io.github.loxygen.discord_framework.commands.annotations.SubCommand
 import io.github.loxygen.discord_framework.commands.event.EventType
 import net.dv8tion.jda.api.events.ReadyEvent
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
+import java.lang.RuntimeException
 
 object Tester : PrefixnessCommand(
    identify = "test",
@@ -65,11 +66,13 @@ object EventListener : EventListener() {
 
 fun main() {
 
+   val testChannelId = System.getenv("TEST_CHANNEL_ID")?.toLongOrNull()
+      ?: throw RuntimeException("TEST_CHANNEL_ID is not set, or invalid.")
    val settingInfo = ClientSettingInfo(
       "Library Test Bot",
       "[t]:",
       null,
-      695976154779222047,
+      testChannelId,
       listOf(),
       true
    )
