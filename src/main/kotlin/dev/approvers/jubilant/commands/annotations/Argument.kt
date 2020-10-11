@@ -1,4 +1,4 @@
-package io.github.loxygen.discord_framework.commands.annotations
+package dev.approvers.jubilant.commands.annotations
 
 /**
  * コマンドが引数を取ることを伝えるアノテーション。

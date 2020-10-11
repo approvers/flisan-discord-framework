@@ -1,4 +1,4 @@
-package io.github.loxygen.discord_framework.client
+package dev.approvers.jubilant.client
 
 data class ClientSettingInfo(
    val botName: String,

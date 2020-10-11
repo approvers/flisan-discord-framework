@@ -1,8 +1,8 @@
-package io.github.loxygen.discord_framework.commands
+package dev.approvers.jubilant.commands
 
-import io.github.loxygen.discord_framework.commands.abc.EventListener
-import io.github.loxygen.discord_framework.commands.abc.MessageCommand
-import io.github.loxygen.discord_framework.commands.event.EventInfo
+import dev.approvers.jubilant.commands.abc.EventListener
+import dev.approvers.jubilant.commands.abc.MessageCommand
+import dev.approvers.jubilant.commands.event.EventInfo
 import net.dv8tion.jda.api.entities.MessageChannel
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 

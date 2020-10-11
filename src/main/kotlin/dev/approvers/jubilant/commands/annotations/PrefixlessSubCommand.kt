@@ -1,6 +1,6 @@
-package io.github.loxygen.discord_framework.commands.annotations
+package dev.approvers.jubilant.commands.annotations
 
-import io.github.loxygen.discord_framework.commands.CommandResult
+import dev.approvers.jubilant.commands.CommandResult
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 
 /**

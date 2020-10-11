@@ -1,4 +1,4 @@
-package io.github.loxygen.discord_framework.commands
+package dev.approvers.jubilant.commands
 
 /**
  * コマンドの情報を格納するデータクラス。

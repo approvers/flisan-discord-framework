@@ -1,4 +1,4 @@
-package io.github.loxygen.discord_framework
+package dev.approvers.jubilant
 
 infix fun <E> List<E>.contentEquals(other: List<E>): Boolean {
 

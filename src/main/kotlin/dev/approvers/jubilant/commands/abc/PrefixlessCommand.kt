@@ -1,9 +1,9 @@
-package io.github.loxygen.discord_framework.commands.abc
+package dev.approvers.jubilant.commands.abc
 
-import io.github.loxygen.discord_framework.commands.CommandInfo
-import io.github.loxygen.discord_framework.commands.CommandResult
-import io.github.loxygen.discord_framework.commands.annotations.PrefixlessSubCommand
-import io.github.loxygen.discord_framework.contentEquals
+import dev.approvers.jubilant.commands.CommandInfo
+import dev.approvers.jubilant.commands.CommandResult
+import dev.approvers.jubilant.commands.annotations.PrefixlessSubCommand
+import dev.approvers.jubilant.contentEquals
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import kotlin.reflect.KCallable
 import kotlin.reflect.KTypeProjection

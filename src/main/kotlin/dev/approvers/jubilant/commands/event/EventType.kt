@@ -1,4 +1,4 @@
-package io.github.loxygen.discord_framework.commands.event
+package dev.approvers.jubilant.commands.event
 
 import net.dv8tion.jda.api.events.ReadyEvent
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent

@@ -1,7 +1,7 @@
-package io.github.loxygen.discord_framework.commands.abc
+package dev.approvers.jubilant.commands.abc
 
-import io.github.loxygen.discord_framework.commands.CommandInfo
-import io.github.loxygen.discord_framework.commands.CommandResult
+import dev.approvers.jubilant.commands.CommandInfo
+import dev.approvers.jubilant.commands.CommandResult
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 
 abstract class MessageCommand {
