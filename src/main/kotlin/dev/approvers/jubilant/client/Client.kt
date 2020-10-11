@@ -1,10 +1,10 @@
-package io.github.loxygen.discord_framework.client
+package dev.approvers.jubilant.client
 
-import io.github.loxygen.discord_framework.commands.CommandManager
-import io.github.loxygen.discord_framework.commands.abc.EventListener
-import io.github.loxygen.discord_framework.commands.abc.MessageCommand
-import io.github.loxygen.discord_framework.commands.event.EventInfo
-import io.github.loxygen.discord_framework.commands.event.EventType
+import dev.approvers.jubilant.commands.CommandManager
+import dev.approvers.jubilant.commands.abc.EventListener
+import dev.approvers.jubilant.commands.abc.MessageCommand
+import dev.approvers.jubilant.commands.event.EventInfo
+import dev.approvers.jubilant.commands.event.EventType
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.events.ReadyEvent

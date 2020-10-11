@@ -1,4 +1,4 @@
-package io.github.loxygen.discord_framework.commands
+package dev.approvers.jubilant.commands
 
 /**
  * コマンドの実行結果を示す列挙体。

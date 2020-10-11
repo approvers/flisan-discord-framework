@@ -1,10 +1,10 @@
-package io.github.loxygen.discord_framework.commands.abc
+package dev.approvers.jubilant.commands.abc
 
-import io.github.loxygen.discord_framework.commands.CommandInfo
-import io.github.loxygen.discord_framework.commands.CommandResult
-import io.github.loxygen.discord_framework.commands.annotations.Argument
-import io.github.loxygen.discord_framework.commands.annotations.SubCommand
-import io.github.loxygen.discord_framework.contentEquals
+import dev.approvers.jubilant.commands.CommandInfo
+import dev.approvers.jubilant.commands.CommandResult
+import dev.approvers.jubilant.commands.annotations.Argument
+import dev.approvers.jubilant.commands.annotations.SubCommand
+import dev.approvers.jubilant.contentEquals
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import kotlin.math.min
 import kotlin.reflect.KCallable
