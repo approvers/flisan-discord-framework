@@ -20,19 +20,19 @@ JCenterで利用可能です。
 <dependency>
   <groupId>dev.approvers</groupId>
   <artifactId>jubilant</artifactId>
-  <version>0.0.0</version>
+  <version>$VERSION</version>
   <type>pom</type>
 </dependency>
 ```
 
 ### Gradle
 ```groovy
-implementation 'dev.approvers:jubilant:0.0.0'
+implementation 'dev.approvers:jubilant:$VERSION'
 ```
 
 ### Ivy
 ```xml
-<dependency org='dev.approvers' name='jubilant' rev='0.0.0'>
+<dependency org='dev.approvers' name='jubilant' rev='$VERSION'>
   <artifact name='jubilant' ext='pom' ></artifact>
 </dependency>
 ```
