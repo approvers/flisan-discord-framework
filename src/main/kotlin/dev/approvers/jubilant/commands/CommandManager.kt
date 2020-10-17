@@ -1,7 +1,7 @@
 package dev.approvers.jubilant.commands
 
 import dev.approvers.jubilant.commands.abc.EventListener
-import dev.approvers.jubilant.commands.abc.MessageCommand
+import dev.approvers.jubilant.commands.abc.AbstCommand
 import dev.approvers.jubilant.commands.event.EventInfo
 import net.dv8tion.jda.api.entities.MessageChannel
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
@@ -20,7 +20,7 @@ class CommandManager(
    /**
     * コマンドを実行するオブジェクトたち。
     */
-   private val commands: MutableList<MessageCommand> = mutableListOf()
+   private val commands: MutableList<AbstCommand> = mutableListOf()
 
    /**
     * イベントで発火されるコマンドを実行するオブジェクトたち。
@@ -31,7 +31,7 @@ class CommandManager(
     * メッセージに反応するコマンドを追加する。
     * @param command コマンド。
     */
-   fun addMessageCommand(command: MessageCommand) {
+   fun addMessageCommand(command: AbstCommand) {
       commands.add(command)
    }
    /**
