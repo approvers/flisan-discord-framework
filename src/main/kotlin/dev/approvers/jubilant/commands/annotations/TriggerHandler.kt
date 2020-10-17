@@ -10,7 +10,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent
  */
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)
-annotation class PrefixlessSubCommand(
+annotation class TriggerHandler(
    /**
     * この正規表現にメッセージがマッチすると、コマンドが発火される。
     */

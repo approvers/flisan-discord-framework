@@ -2,7 +2,7 @@ package dev.approvers.jubilant.commands.abc
 
 import dev.approvers.jubilant.commands.CommandInfo
 import dev.approvers.jubilant.commands.CommandResult
-import dev.approvers.jubilant.commands.annotations.PrefixlessSubCommand
+import dev.approvers.jubilant.commands.annotations.TriggerHandler
 import dev.approvers.jubilant.contentEquals
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import kotlin.reflect.KCallable
@@ -14,19 +14,19 @@ import kotlin.reflect.full.findAnnotation
  * 接頭辞なしコマンドを実際に実行する機能を提供する†抽象クラス†。
  * あらゆる接頭辞なしコマンドはこれを継承してください
  */
-abstract class PrefixlessCommand : AbstCommand() {
+abstract class Trigger : AbstCommand() {
 
    override val commandInfo: CommandInfo? = null
 
    /**
-    * Prefixlessコマンドを実装するメソッドとそれについてるアノテーションのキャッシュ
+    * Triggerを実装するメソッドとそれについてるアノテーションのキャッシュ
     */
-   private val prefixlessMethodCache: List<Pair<KCallable<CommandResult>, PrefixlessSubCommand>>
+   private val triggerMethodCache: List<Pair<KCallable<CommandResult>, TriggerHandler>>
 
    init {
       // メソッドは変わらないし毎回リフレクションゴリゴリするの嫌なので(個人の感想)
       // ここでメソッドとアノテーションをキャッシュしてしまいます
-      val prefixlessMethods: MutableList<Pair<KCallable<CommandResult>, PrefixlessSubCommand>> = mutableListOf()
+      val triggerMethods: MutableList<Pair<KCallable<CommandResult>, TriggerHandler>> = mutableListOf()
 
       val expectedParamTypes = listOf(
          this::class.createType(),
@@ -36,18 +36,18 @@ abstract class PrefixlessCommand : AbstCommand() {
 
       for (callable in this::class.members) {
          if (callable.returnType != CommandResult::class.createType()) continue
-         val commandAnt = callable.findAnnotation<PrefixlessSubCommand>() ?: continue
+         val commandAnt = callable.findAnnotation<TriggerHandler>() ?: continue
          if (!(callable.parameters.map { it.type } contentEquals expectedParamTypes)) continue
 
          @Suppress("UNCHECKED_CAST") // ゆるしてください
-         prefixlessMethods.add(Pair(callable as KCallable<CommandResult>, commandAnt))
+         triggerMethods.add(Pair(callable as KCallable<CommandResult>, commandAnt))
       }
 
-      prefixlessMethodCache = prefixlessMethods.toList()
+      triggerMethodCache = triggerMethods.toList()
    }
 
    override fun isApplicable(query: String): Boolean {
-      return this.prefixlessMethodCache.find { Regex(it.second.triggerRegex).containsMatchIn(query) } != null
+      return this.triggerMethodCache.find { Regex(it.second.triggerRegex).containsMatchIn(query) } != null
    }
 
    /**
@@ -74,7 +74,7 @@ abstract class PrefixlessCommand : AbstCommand() {
     * @param content メッセージの中身
     */
    private fun fetchSubCommandMethodToRun(content: String): KCallable<CommandResult>? {
-      for (method in this.prefixlessMethodCache) {
+      for (method in this.triggerMethodCache) {
          if (!Regex(method.second.triggerRegex).containsMatchIn(content)) continue
          return method.first
       }

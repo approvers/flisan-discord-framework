@@ -39,7 +39,7 @@ implementation 'dev.approvers:jubilant:$VERSION'
 
 ## 使用方法
 ### コマンドを作成する
-Jubilantでは、`PrefixnessCommand`または`PrefixlessCommand`を継承してコマンドを作成します。
+Jubilantでは、`PrefixnessCommand`または`Trigger`を継承してコマンドを作成します。
 
 #### `PrefixnessCommand`
 `PrefixnessCommand`を継承したクラスを作成すると、
@@ -47,8 +47,8 @@ Jubilantでは、`PrefixnessCommand`または`PrefixlessCommand`を継承して�
 
 [サンプル](https://github.com/approvers/jubilant/tree/dev/examples/Calculator.kt)
 
-#### `PrefixlessCommand`
-`PrefixlessComannd`を継承したクラスを作成すると、
+#### `Trigger`
+`Trigger`を継承したクラスを作成すると、
 指定した正規表現に反応するコマンドを作成できます。
 
 [サンプル](https://github.com/approvers/jubilant/tree/dev/examples/Caller.kt)
