@@ -9,7 +9,7 @@ import dev.approvers.jubilant.commands.annotations.SubCommand
 import dev.approvers.jubilant.commands.event.EventType
 import net.dv8tion.jda.api.events.ReadyEvent
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
-import java.lang.RuntimeException
+import kotlin.RuntimeException
 
 object Tester : Command(
    identify = "test",
@@ -44,12 +44,17 @@ object Tester : Command(
       return CommandResult.SUCCESS
    }
 
+   @SubCommand(identify = "except", name = "例外を送出するテストコマンド。", description = "例外時用のメッセージが送信されます。")
+   fun except(args: List<String>, event: MessageReceivedEvent) : CommandResult {
+      throw RuntimeException("Boom!")
+   }
+
    private fun sendArgsInfo(args: List<String>, event: MessageReceivedEvent) {
-      event.channel.sendMessage("以下の引数が渡されました:${
+      event.channel.sendMessage("以下の引数が渡されました:\n${
          args.mapIndexed {index: Int, s: String ->
             "${index + 1} $s"
          }.joinToString("\n")
-      }")
+      }").queue()
    }
 
 }
