@@ -16,7 +16,7 @@ import kotlin.reflect.full.findAnnotation
  * 接頭辞つきコマンドを実際に実行する機能を提供する†抽象クラス†。
  * あらゆる接頭辞つきコマンドはこれを継承してください
  */
-abstract class PrefixnessCommand(
+abstract class Command(
    identify: String,
    name: String,
    description: String
