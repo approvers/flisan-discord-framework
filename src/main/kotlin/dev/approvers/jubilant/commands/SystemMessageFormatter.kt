@@ -2,9 +2,16 @@ package dev.approvers.jubilant.commands
 
 import dev.approvers.jubilant.type.sendable.Sendable
 import net.dv8tion.jda.api.entities.Message
+import net.dv8tion.jda.api.events.ReadyEvent
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 
-interface ResultMessageFormatter {
+interface SystemMessageFormatter {
+
+    /**
+     * Botが準備完了になった時のメッセージを整形する。
+     * @param event イベント。
+     */
+    fun onClientReady(event: ReadyEvent): Sendable?
 
     /**
      * コマンドの実行に成功したときのメッセージを整形する。

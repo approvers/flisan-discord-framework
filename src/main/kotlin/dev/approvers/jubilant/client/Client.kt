@@ -1,7 +1,7 @@
 package dev.approvers.jubilant.client
 
 import dev.approvers.jubilant.commands.CommandManager
-import dev.approvers.jubilant.commands.ResultMessageFormatter
+import dev.approvers.jubilant.commands.SystemMessageFormatter
 import dev.approvers.jubilant.commands.abc.EventListener
 import dev.approvers.jubilant.commands.abc.AbstractCommand
 import dev.approvers.jubilant.commands.event.EventInfo
@@ -23,10 +23,13 @@ import kotlin.system.exitProcess
  */
 class Client(
    val clientSettingInfo: ClientSettingInfo,
-   formatter: ResultMessageFormatter? = null
+   formatter: SystemMessageFormatter? = null
 ) : ListenerAdapter() {
 
-   private val defaultFormatter: ResultMessageFormatter = object : ResultMessageFormatter {
+   private val defaultFormatter : SystemMessageFormatter = object : SystemMessageFormatter {
+      override fun onClientReady(event: ReadyEvent): Sendable?
+              = StringSendable("*\uD83D\uDE80 ${clientSettingInfo.botName}が起動しました。*")
+
       override fun onCommandSucceed(command: String, subCommand: String, event: MessageReceivedEvent): Sendable?
               = null
 
@@ -68,6 +71,11 @@ class Client(
    }
 
    /**
+    * システムメッセージを整形する。
+    */
+   private val systemMessageFormatter = formatter ?: defaultFormatter
+
+   /**
     * JDA実体
     */
    private lateinit var discordClient: JDA
@@ -75,7 +83,7 @@ class Client(
    /**
     * コマンドを管理する。
     */
-   private val commandManager: CommandManager = CommandManager(clientSettingInfo.prefix, formatter ?: defaultFormatter)
+   private val commandManager: CommandManager = CommandManager(clientSettingInfo.prefix, systemMessageFormatter)
 
    /**
     * コマンドを実行する
@@ -116,10 +124,8 @@ class Client(
          println("Bot will exit with exit code 1.")
          exitProcess(1)
       }
-      channel.sendMessage(
-         "***†${clientSettingInfo.botName} Ready†***\n" +
-              "プレフィックスは`${clientSettingInfo.prefix}`です").queue()
 
+      systemMessageFormatter.onClientReady(event)?.send(channel)
       commandManager.dispatchEvent(EventInfo(event, EventType.BOT_READY))
 
    }

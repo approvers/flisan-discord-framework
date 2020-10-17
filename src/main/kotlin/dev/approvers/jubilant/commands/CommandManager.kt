@@ -13,7 +13,7 @@ import java.lang.reflect.InvocationTargetException
  */
 class CommandManager(
    private val prefix: String,
-   private val formatter: ResultMessageFormatter
+   private val formatter: SystemMessageFormatter
 ) {
 
    init {
