@@ -15,7 +15,7 @@ abstract class EventListener {
 
 
    /**
-    * Prefixfulコマンドを実装するメソッドとそれについてるアノテーションのキャッシュ
+    * EventListenerを実装するメソッドとそれについてるアノテーションのキャッシュ
     */
    private val eventMethodCache: List<Pair<KCallable<CommandResult>, EventType>>
 

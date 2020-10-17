@@ -34,14 +34,14 @@ abstract class Command(
    )
 
    /**
-    * Prefixfulコマンドを実装するメソッドとそれについてるアノテーションのキャッシュ
+    * コマンドを実装するメソッドとそれについてるアノテーションのキャッシュ
     */
-   private val prefixfulMethodCache: List<Pair<KCallable<CommandResult>, SubCommand>>
+   private val commandMethodCache: List<Pair<KCallable<CommandResult>, SubCommand>>
 
    init {
       // メソッドは変わらないし毎回リフレクションゴリゴリするの嫌なので(個人の感想)
       // ここでメソッドとアノテーションをキャッシュしてしまいます
-      val prefixfulMethods: MutableList<Pair<KCallable<CommandResult>, SubCommand>> = mutableListOf()
+      val commandMethods: MutableList<Pair<KCallable<CommandResult>, SubCommand>> = mutableListOf()
 
       val expectedParamTypes = listOf(
          this::class.createType(),
@@ -55,10 +55,10 @@ abstract class Command(
          if (!(callable.parameters.map { it.type } contentEquals expectedParamTypes)) continue
 
          @Suppress("UNCHECKED_CAST") // ゆるしてください
-         prefixfulMethods.add(Pair(callable as KCallable<CommandResult>, commandAnt))
+         commandMethods.add(Pair(callable as KCallable<CommandResult>, commandAnt))
       }
 
-      prefixfulMethodCache = prefixfulMethods.toList()
+      commandMethodCache = commandMethods.toList()
    }
 
    override fun isApplicable(query: String): Boolean {
@@ -106,7 +106,7 @@ abstract class Command(
          return this::class.members.find { it.name == "sendHelpText" } as KCallable<CommandResult>
       }
 
-      for (method in this.prefixfulMethodCache) {
+      for (method in this.commandMethodCache) {
 
          if (method.second.identify != identify) continue
 
@@ -143,7 +143,7 @@ abstract class Command(
    @Argument(count = 0, denyLess = false, denyMore = false)
    fun sendHelpText(args: List<String>, event: MessageReceivedEvent): CommandResult {
       val commandHelpText =  buildString {
-         prefixfulMethodCache.forEach {
+         commandMethodCache.forEach {
             val argsAnnotation = it.first.findAnnotation<Argument>()
             val argDocStr = argsAnnotation?.help?.joinToString(" ") { "[$it]" } ?: ""
             val varargNotifyText =

@@ -39,10 +39,10 @@ implementation 'dev.approvers:jubilant:$VERSION'
 
 ## 使用方法
 ### コマンドを作成する
-Jubilantでは、`PrefixnessCommand`または`Trigger`を継承してコマンドを作成します。
+Jubilantでは、`Command`または`Trigger`を継承してコマンドを作成します。
 
-#### `PrefixnessCommand`
-`PrefixnessCommand`を継承したクラスを作成すると、
+#### `Command`
+`Command`を継承したクラスを作成すると、
 プレフィックス付きのメッセージに反応するコマンドを作成できます。
 
 [サンプル](https://github.com/approvers/jubilant/tree/dev/examples/Calculator.kt)
