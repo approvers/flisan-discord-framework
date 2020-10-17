@@ -4,7 +4,7 @@ import dev.approvers.jubilant.commands.CommandInfo
 import dev.approvers.jubilant.commands.CommandResult
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 
-abstract class AbstCommand {
+abstract class AbstractCommand {
 
    /**
     * コマンドの情報。nullを代入するとhelpなどが無効になる

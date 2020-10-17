@@ -20,7 +20,7 @@ abstract class Command(
    identify: String,
    name: String,
    description: String
-) : AbstCommand() {
+) : AbstractCommand() {
 
    companion object {
       private val HELP_TEMPLATE =

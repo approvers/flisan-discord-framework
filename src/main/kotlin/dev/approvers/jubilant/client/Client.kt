@@ -2,7 +2,7 @@ package dev.approvers.jubilant.client
 
 import dev.approvers.jubilant.commands.CommandManager
 import dev.approvers.jubilant.commands.abc.EventListener
-import dev.approvers.jubilant.commands.abc.AbstCommand
+import dev.approvers.jubilant.commands.abc.AbstractCommand
 import dev.approvers.jubilant.commands.event.EventInfo
 import dev.approvers.jubilant.commands.event.EventType
 import dev.approvers.jubilant.exception.TokenMissingException
@@ -47,7 +47,7 @@ class Client(
     * メッセージに反応するコマンドを登録する。
     * @param command コマンド。
     */
-   fun addMessageCommand(command: AbstCommand) {
+   fun addMessageCommand(command: AbstractCommand) {
       this.commandManager.addMessageCommand(command)
    }
 
