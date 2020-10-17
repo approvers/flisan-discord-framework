@@ -77,7 +77,7 @@ class CommandManager(
          CommandResult.SUCCESS -> formatter.onCommandSucceed(command, subCommand, event)
          CommandResult.FAILED -> formatter.onCommandFailed(command, subCommand, event)
          CommandResult.INVALID_ARGUMENTS -> formatter.onInvalidArgumentsPassed(command, subCommand, event)
-         CommandResult.UNKNOWN_MAIN_COMMAND -> formatter.onUnknownCommandPassed(command, event)
+         CommandResult.UNKNOWN_MAIN_COMMAND -> if(doesHavePrefix) formatter.onUnknownCommandPassed(command, event) else null
          CommandResult.UNKNOWN_SUB_COMMAND -> formatter.onUnknownSubCommandPassed(command, subCommand, event)
       }
       sendable?.send(event.channel)
