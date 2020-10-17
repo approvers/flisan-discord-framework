@@ -1,19 +1,19 @@
 package example
 
 import dev.approvers.jubilant.commands.CommandResult
-import dev.approvers.jubilant.commands.abc.PrefixlessCommand
-import dev.approvers.jubilant.commands.annotations.PrefixlessSubCommand
+import dev.approvers.jubilant.commands.abc.Trigger
+import dev.approvers.jubilant.commands.annotations.TriggerHandler
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 
 // プレフィックスを持たない、任意のメッセージに反応させたい場合は、
-// PrefixlessCommandを継承したクラスを作成することで
+// Triggerを継承したクラスを作成することで
 // 任意のメッセージに反応させることができます。
-class Caller : PrefixlessCommand() {
+class Caller : Trigger() {
 
-    // メッセージを処理するコマンドはPrefixlessSubCommandアノテーションを
+    // メッセージを処理するコマンドはTriggerHandlerアノテーションを
     // 付与したメソッドを作成することで作成することができます。
     // 反応させる文字列の正規表現は triggerRegex 引数で指定します。
-    @PrefixlessSubCommand(triggerRegex = "おー+い[！!]")
+    @TriggerHandler(triggerRegex = "おー+い[！!]")
     //
     // メソッドの引数の型は、必ずmethod(List<String>, MessageReceivedEvent)としてください。
     // また、CommandResultを返す必要があります。
@@ -38,7 +38,7 @@ class Caller : PrefixlessCommand() {
     // Higuchi(またはhiguchi)と送信されたら、Bold+Italicで「ichiyo」と返すコマンドです。
     // (何故樋口一葉なのかは、 https://twitter.com/UFIApprovers または
     //  https://twitter.com/search?q=%E9%99%90%E7%95%8C%E9%96%8B%E7%99%BA%E9%AF%96 を参照すると分かるかもしれません。)
-    @PrefixlessSubCommand(triggerRegex = "[hH]iguchi")
+    @TriggerHandler(triggerRegex = "[hH]iguchi")
     fun ichiyo(message: String, event: MessageReceivedEvent): CommandResult {
 
         event.channel.sendMessage("***Ichiyo***").queue()

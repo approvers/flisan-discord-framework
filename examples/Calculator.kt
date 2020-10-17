@@ -1,14 +1,14 @@
 package example
 
 import dev.approvers.jubilant.commands.CommandResult
-import dev.approvers.jubilant.commands.abc.PrefixnessCommand
+import dev.approvers.jubilant.commands.abc.Command
 import dev.approvers.jubilant.commands.annotations.Argument
 import dev.approvers.jubilant.commands.annotations.SubCommand
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 
-// コマンドは `PrefixnessCommand` を継承したクラスを作成することで作成できます。
-class Calculator : PrefixnessCommand(
-    // PrefixnessCommandのコンストラクタに、コマンドの情報を入力します。
+// コマンドは `Command` を継承したクラスを作成することで作成できます。
+class Calculator : Command(
+    // Commandのコンストラクタに、コマンドの情報を入力します。
     // ここで入力した内容が、`help`サブコマンド実行時に表示されます。
     name = "簡易的な電卓",
     description = "足し算と掛け算をします。",

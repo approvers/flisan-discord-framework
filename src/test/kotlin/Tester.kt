@@ -2,7 +2,7 @@ import dev.approvers.jubilant.client.Client
 import dev.approvers.jubilant.client.ClientSettingInfo
 import dev.approvers.jubilant.commands.CommandResult
 import dev.approvers.jubilant.commands.abc.EventListener
-import dev.approvers.jubilant.commands.abc.PrefixnessCommand
+import dev.approvers.jubilant.commands.abc.Command
 import dev.approvers.jubilant.commands.annotations.Argument
 import dev.approvers.jubilant.commands.annotations.EventReceiver
 import dev.approvers.jubilant.commands.annotations.SubCommand
@@ -11,7 +11,7 @@ import net.dv8tion.jda.api.events.ReadyEvent
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import java.lang.RuntimeException
 
-object Tester : PrefixnessCommand(
+object Tester : Command(
    identify = "test",
    name = "テスト",
    description = "さっきのより実用性を高くしました"
