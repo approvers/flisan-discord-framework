@@ -6,6 +6,7 @@ import dev.approvers.jubilant.commands.event.EventInfo
 import dev.approvers.jubilant.type.sendable.Sendable
 import net.dv8tion.jda.api.entities.MessageChannel
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
+import java.lang.reflect.InvocationTargetException
 
 /**
  * コマンドを司る。
@@ -54,20 +55,24 @@ class CommandManager(
          event.message.contentDisplay.let { if (doesHavePrefix) it.substring(prefix.length) else it }
       val content = rawText.split(" ")
 
-      if (doesHavePrefix && content[0] == "help") {
+      val command = content[0]
+      val subCommand = content.getOrElse(1) {"(サブコマンドなし)"}
+
+      if (doesHavePrefix && command == "help") {
          sendHelp(event.channel)
          return
       }
 
       // 実行する
-      val result: CommandResult = commands.find {
-         it.isApplicable(if (doesHavePrefix) content[0] else event.message.contentDisplay)
-      }?.runCommand(content, event)
-         ?: CommandResult.UNKNOWN_MAIN_COMMAND
+      val result = try {
+         commands.find { it.isApplicable(if (doesHavePrefix) command else event.message.contentDisplay) }
+            ?.executeCommand(content, event) ?: CommandResult.UNKNOWN_MAIN_COMMAND
+      } catch (e: InvocationTargetException) {
+         formatter.onExceptionThrown(command, subCommand, event, e.targetException)?.send(event.channel)
+         return
+      }
 
       // 結果に応じて処理をする
-      val command = content[0]
-      val subCommand = content.getOrElse(1) {"(サブコマンドなし)"}
       val sendable : Sendable? = when (result) {
          CommandResult.SUCCESS -> formatter.onCommandSucceed(command, subCommand, event)
          CommandResult.FAILED -> formatter.onCommandFailed(command, subCommand, event)
