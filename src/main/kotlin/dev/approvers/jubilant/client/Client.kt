@@ -56,18 +56,18 @@ class Client(
          command: String,
          subCommand: String,
          event: MessageReceivedEvent
-      ): Sendable? = StringSendable("引数が不正です。ヘルプ(`${clientSettingInfo.prefix}$command help`)を確認してください")
+      ): Sendable? = StringSendable("*引数が不正です。ヘルプ(`${clientSettingInfo.prefix}$command help`)を確認してください。*")
 
       override fun onUnknownCommandPassed(
          command: String,
          event: MessageReceivedEvent
-      ): Sendable? = StringSendable("不明なコマンドです。ヘルプ(`${clientSettingInfo.prefix}help`)を参照してください")
+      ): Sendable? = StringSendable("*不明なコマンドです。ヘルプ(`${clientSettingInfo.prefix}help`)を参照してください。*")
 
       override fun onUnknownSubCommandPassed(
          command: String,
          subCommand: String,
          event: MessageReceivedEvent
-      ): Sendable? = StringSendable("不正なサブコマンドです。ヘルプ(`${clientSettingInfo.prefix}$command help`)を確認してください")
+      ): Sendable? = StringSendable("*不正なサブコマンドです。ヘルプ(`${clientSettingInfo.prefix}$command help`)を確認してください。*")
    }
 
    /**
