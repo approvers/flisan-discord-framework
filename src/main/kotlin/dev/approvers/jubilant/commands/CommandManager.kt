@@ -3,14 +3,17 @@ package dev.approvers.jubilant.commands
 import dev.approvers.jubilant.commands.abc.EventListener
 import dev.approvers.jubilant.commands.abc.AbstractCommand
 import dev.approvers.jubilant.commands.event.EventInfo
+import dev.approvers.jubilant.type.sendable.Sendable
 import net.dv8tion.jda.api.entities.MessageChannel
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
+import java.lang.reflect.InvocationTargetException
 
 /**
  * コマンドを司る。
  */
 class CommandManager(
-   private val prefix: String
+   private val prefix: String,
+   private val formatter: SystemMessageFormatter
 ) {
 
    init {
@@ -52,35 +55,32 @@ class CommandManager(
          event.message.contentDisplay.let { if (doesHavePrefix) it.substring(prefix.length) else it }
       val content = rawText.split(" ")
 
-      if (doesHavePrefix && content[0] == "help") {
+      val command = content[0]
+      val subCommand = content.getOrElse(1) {"(サブコマンドなし)"}
+
+      if (doesHavePrefix && command == "help") {
          sendHelp(event.channel)
          return
       }
 
       // 実行する
-      val result: CommandResult = commands.find {
-         it.isApplicable(if (doesHavePrefix) content[0] else event.message.contentDisplay)
-      }?.runCommand(content, event)
-         ?: CommandResult.UNKNOWN_MAIN_COMMAND
+      val result = try {
+         commands.find { it.isApplicable(if (doesHavePrefix) command else event.message.contentDisplay) }
+            ?.executeCommand(content, event) ?: CommandResult.UNKNOWN_MAIN_COMMAND
+      } catch (e: InvocationTargetException) {
+         formatter.onExceptionThrown(command, subCommand, event, e.targetException)?.send(event.channel)
+         return
+      }
 
       // 結果に応じて処理をする
-      when (result) {
-         CommandResult.SUCCESS -> {
-            println("command succeeded:\n${event.author.name}\n  ${event.message.contentDisplay}")
-         }
-         CommandResult.FAILED -> {
-            println("command failed:\n${event.author.name}\n  ${event.message.contentDisplay}")
-         }
-         CommandResult.INVALID_ARGUMENTS -> {
-            event.channel.sendMessage("引数がおかしいみたいです").queue()
-         }
-         CommandResult.UNKNOWN_MAIN_COMMAND -> {
-            if (doesHavePrefix) event.channel.sendMessage("それ is 何").queue()
-         }
-         CommandResult.UNKNOWN_SUB_COMMAND -> {
-            event.channel.sendMessage("そのサブコマンド is 何").queue()
-         }
+      val sendable : Sendable? = when (result) {
+         CommandResult.SUCCESS -> formatter.onCommandSucceed(command, subCommand, event)
+         CommandResult.FAILED -> formatter.onCommandFailed(command, subCommand, event)
+         CommandResult.INVALID_ARGUMENTS -> formatter.onInvalidArgumentsPassed(command, subCommand, event)
+         CommandResult.UNKNOWN_MAIN_COMMAND -> if(doesHavePrefix) formatter.onUnknownCommandPassed(command, event) else null
+         CommandResult.UNKNOWN_SUB_COMMAND -> formatter.onUnknownSubCommandPassed(command, subCommand, event)
       }
+      sendable?.send(event.channel)
    }
 
    fun dispatchEvent(eventInfo: EventInfo) {
@@ -100,7 +100,6 @@ class CommandManager(
             append("  ${info.description}\n``````")
          }
          delete(length - 3, length)
-         append("各コマンドの詳細は`//<command.name>`を叩くと表示されます")
       }).queue()
    }
 
