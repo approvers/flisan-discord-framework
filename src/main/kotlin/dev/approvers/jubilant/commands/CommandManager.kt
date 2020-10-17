@@ -3,6 +3,7 @@ package dev.approvers.jubilant.commands
 import dev.approvers.jubilant.commands.abc.EventListener
 import dev.approvers.jubilant.commands.abc.AbstractCommand
 import dev.approvers.jubilant.commands.event.EventInfo
+import dev.approvers.jubilant.type.sendable.Sendable
 import net.dv8tion.jda.api.entities.MessageChannel
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 
@@ -10,7 +11,8 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent
  * コマンドを司る。
  */
 class CommandManager(
-   private val prefix: String
+   private val prefix: String,
+   private val formatter: ResultMessageFormatter
 ) {
 
    init {
@@ -64,23 +66,16 @@ class CommandManager(
          ?: CommandResult.UNKNOWN_MAIN_COMMAND
 
       // 結果に応じて処理をする
-      when (result) {
-         CommandResult.SUCCESS -> {
-            println("command succeeded:\n${event.author.name}\n  ${event.message.contentDisplay}")
-         }
-         CommandResult.FAILED -> {
-            println("command failed:\n${event.author.name}\n  ${event.message.contentDisplay}")
-         }
-         CommandResult.INVALID_ARGUMENTS -> {
-            event.channel.sendMessage("引数がおかしいみたいです").queue()
-         }
-         CommandResult.UNKNOWN_MAIN_COMMAND -> {
-            if (doesHavePrefix) event.channel.sendMessage("それ is 何").queue()
-         }
-         CommandResult.UNKNOWN_SUB_COMMAND -> {
-            event.channel.sendMessage("そのサブコマンド is 何").queue()
-         }
+      val command = content[0]
+      val subCommand = content.getOrElse(1) {"(サブコマンドなし)"}
+      val sendable : Sendable? = when (result) {
+         CommandResult.SUCCESS -> formatter.onCommandSucceed(command, subCommand, event)
+         CommandResult.FAILED -> formatter.onCommandFailed(command, subCommand, event)
+         CommandResult.INVALID_ARGUMENTS -> formatter.onInvalidArgumentsPassed(command, subCommand, event)
+         CommandResult.UNKNOWN_MAIN_COMMAND -> formatter.onUnknownCommandPassed(command, event)
+         CommandResult.UNKNOWN_SUB_COMMAND -> formatter.onUnknownSubCommandPassed(command, subCommand, event)
       }
+      sendable?.send(event.channel)
    }
 
    fun dispatchEvent(eventInfo: EventInfo) {
