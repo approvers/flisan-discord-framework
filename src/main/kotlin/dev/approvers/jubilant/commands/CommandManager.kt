@@ -100,7 +100,6 @@ class CommandManager(
             append("  ${info.description}\n``````")
          }
          delete(length - 3, length)
-         append("各コマンドの詳細は`//<command.name>`を叩くと表示されます")
       }).queue()
    }
 
