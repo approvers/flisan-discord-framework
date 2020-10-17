@@ -29,7 +29,7 @@ interface ResultMessageFormatter {
      * @param event 解析しているイベント。
      * @param exception 発生した例外。
      */
-    fun onExceptionThrown(command: String, subCommand: String, event: MessageReceivedEvent, exception: Exception): Sendable?
+    fun onExceptionThrown(command: String, subCommand: String, event: MessageReceivedEvent, exception: Throwable): Sendable?
 
     /**
      * コマンドに不正な引数が渡された時のメッセージを整形する。
